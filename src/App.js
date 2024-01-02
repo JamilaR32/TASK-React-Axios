@@ -5,8 +5,14 @@ import Navbar from "./components/Navbar";
 import PetDetail from "./components/PetDetail";
 import PetItem from "./components/PetItem";
 import PetList from "./components/PetList";
-
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 function App() {
+  const response = useQuery({
+    queryKey: ["Test"],
+    queryFn: () => axios.get("https://fakestoreapi.com/products/1"),
+  });
+  console.log(response.data);
   return (
     <div className="font-mono">
       <Navbar />
