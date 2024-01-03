@@ -12,7 +12,7 @@ function App() {
     queryKey: ["Test"],
     queryFn: () => axios.get("https://fakestoreapi.com/products/1"),
   });
-  console.log(response.data);
+
   return (
     <div className="font-mono">
       <Navbar />

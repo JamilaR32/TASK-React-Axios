@@ -1,9 +1,16 @@
 import React from "react";
 import petsData from "../petsData";
 import { useParams } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deletePet, getById } from "../api/pets";
 const PetDetail = () => {
   const { id } = useParams();
-  const pet = petsData[0];
+
+  const response = useQuery({ queryKey: ["pet"], queryFn: () => getById(id) });
+
+  const pet = response?.data.find((item) => id == item.id);
+  console.log(pet);
+  const destroy = useMutation({ mutationFn: () => deletePet(id) });
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
       <div className="border border-black rounded-md w-[70%] h-[70%] overflow-hidden flex flex-col md:flex-row p-5">
@@ -23,7 +30,10 @@ const PetDetail = () => {
             Adobt
           </button>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-red-400">
+          <button
+            onClick={destroy.mutate}
+            className="w-[70px] border border-black rounded-md  hover:bg-red-400"
+          >
             Delete
           </button>
         </div>
